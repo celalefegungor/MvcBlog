@@ -1,0 +1,54 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model  IPagedList<MvcBlog.Models.Makale>
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<br>
+<h3>Son Eklenen Makaleler</h3>
+<hr>
+<br />
+@foreach (var item in Model)
+{
+
+    <div class="card mb-4">
+        <img class="card-img-top" src="@item.Foto" alt="Card image cap">
+        <div class="card-body">
+            <h2 class="/Home/MakaleDetay/@item.MakaleId">@item.Baslik</h2>
+
+            @if (item.Icerik.Length > 150)
+            {
+                <p>@Html.Raw(item.Icerik.Substring(0, 150))</p>
+            }
+            else
+            {
+                <p>@Html.Raw(item.Icerik)...</p>
+            }
+            <a href="/Home/MakaleDetay/@item.MakaleId" class="btn btn-primary">Daha Fazlası &rarr;</a>
+        </div>
+        <div class="card-footer text-muted" style="text-align:right">
+            Yazar : <a href="/Uye/UyeProfil/@item.Uye.UyeId">@item.Uye.KullaniciAdi</a>
+            <img class="img-fluid rounded-circle rounded" width="40" src="@item.Uye.Foto" alt="@item.Uye.AdSoyad" />
+            <br />
+            <i class="fa fa-clock">  @item.Tarih.Value.ToString("dd-MM-yyyy")   </i>
+            |
+            <i class="fa fa-tags">   @item.Etikets.Count()</i>
+            |
+            <i class="fa fa-eye"> @item.Okunma</i>
+
+        </div>
+
+    </div>
+    <hr />
+    <br />
+
+}
+
+
+    <div style="text-align:center;">
+        <div class="pagedList pagination-lg">
+            @Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }), PagedListRenderOptions.Classic)
+        </div>
+    </div>

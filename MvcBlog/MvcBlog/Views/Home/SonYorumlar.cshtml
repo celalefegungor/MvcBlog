@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MvcBlog.Models.Yorum>
+
+@{ 
+    Layout = null;
+}
+
+<div class="card my-4">
+    @foreach (var item in Model)
+    {
+        <h5 class="card-header">Son Yorumlar : @item.Uye.KullaniciAdi</h5>
+        <div class="card-body">
+            @item.Icerik
+        </div>
+    }
+
+</div>

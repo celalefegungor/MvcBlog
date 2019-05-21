@@ -1,0 +1,82 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<MvcBlog.Models.Makale>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Makaleler</h2>
+
+<p>
+    @Html.ActionLink("Yeni Makale", "Create")
+</p>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.Label("Kategori Adı")
+        </th>
+        <th>
+            @Html.Label("Başlık")
+        </th>
+        <th>
+            @Html.Label("İçerik")
+        </th>
+        <th>
+            @Html.Label("Fotoğraf")
+        </th>
+        <th>
+            @Html.Label("Tarih")
+        </th>
+        <th>
+            @Html.Label("Uye ID")
+        </th>
+        <th>
+            @Html.Label("Okunma")
+        </th>
+        <th style="text-align:center"><i class="fa fa-address-book" aria-hidden="true"></i></th>
+        <th style="text-align:center"><i class="fa fa-info-circle" aria-hidden="true"></i></th>
+        <th style="text-align:center"><i class="fa fa-ban" aria-hidden="true"></i></th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategori.KategoriAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Icerik)
+            </td>
+            <td>
+                <img width="75" src="@item.Foto" />
+            </td>
+            <td>
+                @item.Tarih.Value.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UyeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Okunma)
+            </td>
+
+
+
+            <td> @Html.ActionLink("Güncelle", "Edit", new { id = item.MakaleId }, new { @class = "btn btn-primary" })</td>
+            <td>@Html.ActionLink("Detay", "Details", new { id = item.MakaleId }, new { @class = "btn btn-info" })</td>
+            <td>@Html.ActionLink("Sil", "Delete", new { id = item.MakaleId }, new { @class = "btn btn-danger" })</td>
+        </tr>
+    }
+
+</table>
+<div style="text-align:center;">
+    <div class="pagedList pagination-lg">
+        @Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }), PagedListRenderOptions.Classic)
+    </div>
+</div>
